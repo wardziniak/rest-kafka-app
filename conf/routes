@@ -1,0 +1,1 @@
+GET /test   com.wardziniak.kafka.rest.app.controller.PeopleController.test
