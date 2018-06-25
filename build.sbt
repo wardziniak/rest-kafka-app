@@ -11,7 +11,10 @@ import Dependencies._
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.0-M1" % Test
 libraryDependencies ++= Seq(
-  kafkaStreams
+  kafkaStreams,
+  scalaLogging,
+  pureConfig,
+  avro4sCore
 )
 
     

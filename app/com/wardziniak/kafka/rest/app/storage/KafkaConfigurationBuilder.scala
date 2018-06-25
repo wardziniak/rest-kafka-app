@@ -11,27 +11,28 @@ import org.apache.kafka.clients.producer.ProducerConfig
   * Created by wardziniak on 24.06.18.
   */
 trait KafkaConfigurationBuilder {
-  def build(): AbstractConfig
+  def build(): Properties
 }
 
 case class KafkaStreamConfigurationBuilder(kafkaConfig: KafkaConfig) extends KafkaConfigurationBuilder {
-  override def build(): StreamsConfig = {
-    val props = new JHashMap[String, String]()
+  override def build(): Properties = {
+    val props = new Properties()
     val streamsConfig = kafkaConfig.streams
     props.put(StreamsConfig.APPLICATION_ID_CONFIG, streamsConfig.applicationId)
     props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfig.common.bootstrapServer)
     val config = new StreamsConfig(props)
-    config
+    props
   }
 }
 
 case class KafkaProducerConfigurationBuilder(kafkaConfig: KafkaConfig) extends KafkaConfigurationBuilder {
-  override def build(): ProducerConfig = {
+  override def build(): Properties = {
     val props = new Properties()
     props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfig.common.bootstrapServer)
     props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true)
     val config = new ProducerConfig(props)
-    config
+    config.values()
+    props
   }
 }
 

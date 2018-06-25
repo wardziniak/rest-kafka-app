@@ -9,7 +9,9 @@ case class KafkaStreamsConfig(applicationId: String, topic: String, store: Strin
 
 case class ProducerConfig(topic: String)
 
-
+object KafkaConfig {
+  val KeyName = "kafka"
+}
 
 
 
