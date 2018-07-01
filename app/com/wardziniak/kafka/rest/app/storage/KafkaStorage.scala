@@ -15,21 +15,21 @@ import java.util.{Properties, HashMap => JHashMap, Map => JMap}
 import com.wardziniak.kafka.rest.app.model.Person
 import com.wardziniak.kafka.rest.app.storage.serialization.GenericSerializer
 
+import scala.concurrent.Future
+import scala.collection.JavaConverters._
+
 /**
   * Created by wardziniak on 24.06.18.
   */
 
 @Singleton
-class KafkaStorage @Inject()(kafkaConfig: KafkaConfig) extends AbstractTopologyBuilder{
+class KafkaStorage @Inject()(kafkaConfig: KafkaConfig) extends AbstractTopologyBuilder {
 
   val builder = new StreamsBuilder()
 
+  buildTableStreamTopology[Person](builder, kafkaConfig.streams.topic, kafkaConfig.streams.store)
   val streams:KafkaStreams = new KafkaStreams(builder.build(), KafkaStreamConfigurationBuilder(kafkaConfig).build())
   streams.start()
-
-  def buildPeopleStreamTopology(builder: StreamsBuilder, topicName: String, storeName: String): StreamsBuilder = {
-    buildTableStreamTopology[Int, Person](builder, topicName, storeName)
-  }
 
   val producer: KafkaProducer[Integer, Person] = new KafkaProducer[Integer, Person](
     KafkaProducerConfigurationBuilder(kafkaConfig).build(),
@@ -44,13 +44,18 @@ class KafkaStorage @Inject()(kafkaConfig: KafkaConfig) extends AbstractTopologyB
     peopleStore.get(id)
   }
 
-  def upsertPerson(person: Person) = {
+  def findAll: List[Person] = {
+    peopleStore.all().asScala.map(_.value).toList
+  }
+
+  def upsertPerson(person: Person): Person = {
     val producerRecord = new ProducerRecord[Integer, Person](
       kafkaConfig.producer.topic,
       person.id,
       person
     )
-    producer.send(producerRecord)
+    producer.send(producerRecord).get()
+    person
   }
 
   Runtime.getRuntime.addShutdownHook(new Thread(() => {

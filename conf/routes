@@ -1,1 +1,3 @@
 GET /test   com.wardziniak.kafka.rest.app.controller.PeopleController.test
+GET /people/:id     com.wardziniak.kafka.rest.app.controller.PeopleController.find(id: Int)
+PUT /people/:id com.wardziniak.kafka.rest.app.controller.PeopleController.upsert(id: Int)
