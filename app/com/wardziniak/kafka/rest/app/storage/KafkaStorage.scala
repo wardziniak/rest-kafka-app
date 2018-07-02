@@ -1,21 +1,17 @@
 package com.wardziniak.kafka.rest.app.storage
 
 import java.util.concurrent.TimeUnit
+import java.util.{HashMap => JHashMap, Map => JMap}
 import javax.inject.{Inject, Singleton}
 
 import com.wardziniak.kafka.rest.app.config.KafkaConfig
-import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
-import org.apache.kafka.common.serialization.{IntegerSerializer, Serdes, StringSerializer}
-import org.apache.kafka.common.utils.Bytes
-import org.apache.kafka.streams.kstream.Materialized
-import org.apache.kafka.streams.state.{KeyValueStore, QueryableStoreTypes, ReadOnlyKeyValueStore}
-import org.apache.kafka.streams.{Consumed, KafkaStreams, StreamsBuilder}
-import java.util.{Properties, HashMap => JHashMap, Map => JMap}
-
 import com.wardziniak.kafka.rest.app.model.Person
 import com.wardziniak.kafka.rest.app.storage.serialization.GenericSerializer
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
+import org.apache.kafka.common.serialization.IntegerSerializer
+import org.apache.kafka.streams.state.{QueryableStoreTypes, ReadOnlyKeyValueStore}
+import org.apache.kafka.streams.{KafkaStreams, StreamsBuilder}
 
-import scala.concurrent.Future
 import scala.collection.JavaConverters._
 
 /**
