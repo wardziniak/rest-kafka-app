@@ -16,7 +16,9 @@ Application expose API to manage Person data.
 Model: case class Person(id: Int, name: String, age: Int, email: String)
 
 To update/add new Person following command can be used:
-curl -X PUT -H 'Content-Type: application/json' localhost:9000 -d
+curl -X PUT -H 'Content-Type: application/json' localhost:9000 -d '{}'
 
-How to add/update 
+Retrieve Person data:
+curl -X GET -H 'Content-Type: application/json' localhost:9000 -d '{}'
+
 
