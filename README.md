@@ -1,10 +1,7 @@
 # rest-kafka-app
 Rest Application, that uses Kafka as a storage
 
-
-
-Previously publishing data (insert, update) can be made via KafkaProducer, but there weren't simple way to retrieve data by Key.
-Kafka Streams library introduce how easily retrieve data from Apache Kafka.
+Priori to version 0.11.0.0 there weren't simple way to retrieve data by key. Simple consumer API enable only reading data sequentially. Because of that Kafka couldn't be used as storage for Rest App. Publishing data (insert, update) can be made easily via KafkaProducer, but search wasn't posible. Kafka Streams library introduce how easily retrieve data from Apache Kafka.
 This project shows how it can be made.
 More details can be found https://wardziniak.gitbook.io/apache-kafka/kafka-as-storage
 
